@@ -14,4 +14,11 @@ public class Controller
   {
       return new ModelAndView("converter");
   }
+
+  @GetMapping("/convert")
+  public ModelAndView performConvertion(String first, String second)
+  {
+      System.out.println(first + ", " + second);
+      return new ModelAndView("result");
+  }
 }
