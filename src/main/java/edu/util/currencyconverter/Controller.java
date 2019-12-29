@@ -1,6 +1,9 @@
 package edu.util.currencyconverter;
 
+import edu.util.currencyconverter.data.Currency;
+import edu.util.currencyconverter.data.ExchangeRate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class Controller
 {
+  @Autowired
+  private ExchangeRateCalculator ratesCalculator;
+
   @GetMapping("/")
   public ModelAndView getIndexPage()
   {
@@ -18,7 +24,9 @@ public class Controller
   @GetMapping("/convert")
   public ModelAndView performConvertion(String first, String second)
   {
-      System.out.println(first + ", " + second);
+      Enum firstCurrency = Currency.valueOf(first);
+      Enum secondCurrency = Currency.valueOf(second);
+      ExchangeRate rates = ratesCalculator.returnExchangeRates(firstCurrency, secondCurrency);
       return new ModelAndView("result");
   }
 }
