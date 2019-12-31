@@ -27,12 +27,22 @@ public class Controller
   @Autowired
   private ExchangeRateCalculator ratesCalculator;
 
+  /**
+   * <p>Controller method mapping "/" to the index page.</p>
+   * @return - view for index page with no data.
+   */
   @GetMapping("/")
   public ModelAndView getIndexPage()
   {
       return new ModelAndView("converter");
   }
 
+  /**
+   * <p>Controller method invoke when index page form is submitted, perforns conversion from base currency to
+   * conversion currency and returns results to result view.</p>
+   * @return ModelAndView - object containing Model objects containing results of conversion and the template to send
+   *                        them to.
+   */
   @GetMapping("/convert")
   public ModelAndView performConversion(Float amount, String first, String second)
   {
@@ -42,16 +52,20 @@ public class Controller
       return viewWithModels(amount, rates, equivalentAmount);
   }
 
-    private ModelAndView viewWithModels(Float amount, List<ExchangeRate> rates, Float equivalentAmount)
-    {
-        ModelAndView resultsModel = new ModelAndView("result");
-        resultsModel.addObject("rates", rates);
-        resultsModel.addObject("initialAmount", amount);
-        resultsModel.addObject("equivalentAmount", equivalentAmount);
+  private ModelAndView viewWithModels(Float amount, List<ExchangeRate> rates, Float equivalentAmount)
+  {
+      ModelAndView resultsModel = new ModelAndView("result");
+      resultsModel.addObject("rates", rates);
+      resultsModel.addObject("initialAmount", amount);
+      resultsModel.addObject("equivalentAmount", equivalentAmount);
         return resultsModel;
-    }
+  }
 
-    @GetMapping("/home")
+  /**
+   * <p>Controller method for returning to the index page from the results view.</p>
+   * @return ModelAndView - view for index page with no data.
+   */
+  @GetMapping("/home")
   public ModelAndView returnToHomePage()
   {
     return new ModelAndView("converter");
