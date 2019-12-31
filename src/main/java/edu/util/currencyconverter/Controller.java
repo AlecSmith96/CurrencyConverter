@@ -38,13 +38,20 @@ public class Controller
   {
       List<ExchangeRate> rates = ratesCalculator.returnExchangeRates(Currency.valueOf(first), Currency.valueOf(second));
       Float equivalentAmount = ratesCalculator.calculateEquivalentAmount(rates, amount, second);
-      ModelAndView resultsModel = new ModelAndView("result");
-      resultsModel.addObject("rates", rates);
-      resultsModel.addObject("equivalentAmount", equivalentAmount);
-      return resultsModel;
+
+      return viewWithModels(amount, rates, equivalentAmount);
   }
 
-  @GetMapping("/home")
+    private ModelAndView viewWithModels(Float amount, List<ExchangeRate> rates, Float equivalentAmount)
+    {
+        ModelAndView resultsModel = new ModelAndView("result");
+        resultsModel.addObject("rates", rates);
+        resultsModel.addObject("initialAmount", amount);
+        resultsModel.addObject("equivalentAmount", equivalentAmount);
+        return resultsModel;
+    }
+
+    @GetMapping("/home")
   public ModelAndView returnToHomePage()
   {
     return new ModelAndView("converter");

@@ -11,13 +11,20 @@ package edu.util.currencyconverter.data;
 
 public enum Currency
 {
-    GBP("GBP"),
-    USD("USD"),
-    EUR("EUR");
+    GBP("GBP", "£"),
+    USD("USD", "$"),
+    EUR("EUR", "\\u20AC");
     private String value;
+    private String symbol;
 
-    Currency(String value)
+    Currency(String value, String symbol)
     {
         this.value = value;
+        this.symbol = symbol;
+    }
+
+    public String getSymbol()
+    {
+        return symbol;
     }
 }

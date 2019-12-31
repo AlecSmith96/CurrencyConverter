@@ -6,21 +6,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" media="all"
-          href="../static/css/converterStyle.css" th:href="@{/../static/css/converterStyle.css}" />
+          href="../static/css/converterStyle.css" th:href="@{/css/converterStyle.css}" />
     <title>Exchange</title>
 </head>
 <body>
-    <div id="container">
+<h1>Currency Converter</h1>
+<div id="container">
+    <div id="form-div">
         <form action="/convert" id="input-form">
-            <h1>Currency Converter</h1>
-            <p style="float: left">Value of: </p>
+            <p style=" font-weight:bold;">Value of: </p>
             <input type="number" name="amount">
             <select name="first">
                 <option value="GBP">GBP</option>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
             </select>
-            <p>in</p>
+            <p style="font-weight:bold;">in</p>
             <select name="second">
                 <option value="GBP">GBP</option>
                 <option value="USD">USD</option>
@@ -29,5 +30,6 @@
             <button id="submit-btn">Submit</button>
         </form>
     </div>
+</div>
 </body>
 </html>
