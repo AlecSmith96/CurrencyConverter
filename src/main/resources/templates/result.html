@@ -12,20 +12,20 @@
 <h1>Conversion Results</h1>
 
 <div id="rates-div">
-<table>
-    <thead><tr></tr></thead>
-    <tbody>
-    <tr th:if="${rates.isEmpty()}">
-        <td colspan="2"> No rates Available </td>
-    </tr>
-    <tr th:each="rate : ${rates}">
-        <td><span th:text="${rate.currency}"> Currency </span></td>
-        <td><span th:text="${rate.rate}"> Rate </span></td>
-    </tr>
-    </tbody>
-</table>
-
+    <table>
+        <thead><tr></tr></thead>
+        <tbody>
+        <tr th:if="${rates.isEmpty()}">
+            <td colspan="2"> No rates Available </td>
+        </tr>
+        <tr th:each="rate : ${rates}">
+            <td><span th:text="${rate.currency}"> Currency </span></td>
+            <td><span th:text="${rate.rate}"> Rate </span></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
 <div id="amount-results-div">
     <h1 th:text="${rates.get(1).getCurrency().getSymbol()}">symbol</h1>
     <h1 th:text="${initialAmount}">initial amount</h1>

@@ -4,9 +4,17 @@
 }
 
 #form-div{
-    background-color: #14768b;
+    background-color: aqua;
+    margin: 1%;
+    padding: 1%;
     padding-left: 5%;
+    padding-right: 5%;
     display:inline-block
+}
 
-
+#rates-div{
+    background-color: aqua;
+    padding: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
