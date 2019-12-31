@@ -2,14 +2,23 @@ package edu.util.currencyconverter;
 
 import edu.util.currencyconverter.data.Currency;
 import edu.util.currencyconverter.data.ExchangeRate;
-import edu.util.currencyconverter.data.RatesResponse;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
+/**
+ * <h1>Filename: Controller.java</h1>
+ * <p>Description: Rest Controller class for passing model objects from views and routing to the correct view.</p>
+ * @author Alec Smith
+ * @version 1.0
+ * @since 31/12/2019
+ *
+ * <p>Copyright: Alec R. C. Smith 2019</p>
+ */
 
 @RestController
 @Slf4j

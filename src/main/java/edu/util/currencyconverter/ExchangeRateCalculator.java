@@ -3,14 +3,26 @@ package edu.util.currencyconverter;
 import edu.util.currencyconverter.data.Currency;
 import edu.util.currencyconverter.data.ExchangeRate;
 import edu.util.currencyconverter.data.RatesResponse;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import javax.sound.sampled.FloatControl;
-import java.util.*;
-import java.util.stream.Collectors;
+/**
+ * <h1>Filename: ExchangeRateCalculator.java</h1>
+ * <p>Description: Singleton class used to return correct exchange rates from http requests and calculating the equivalent
+ *    amount for another currency</p>
+ * @author Alec Smith
+ * @version 1.0
+ * @since 31/12/2019
+ *
+ * <p>Copyright: Alec R. C. Smith 2019</p>
+ */
 
 @Component
 public class ExchangeRateCalculator
