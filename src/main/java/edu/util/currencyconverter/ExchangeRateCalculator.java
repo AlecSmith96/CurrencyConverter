@@ -4,10 +4,7 @@ import edu.util.currencyconverter.data.Currency;
 import edu.util.currencyconverter.data.ExchangeRate;
 import edu.util.currencyconverter.data.RatesResponse;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -36,7 +33,7 @@ public class ExchangeRateCalculator
 
     public List<ExchangeRate> returnExchangeRates(Enum first, Enum second)
     {
-        RatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/latest?symbols=USD,GBP", RatesResponse.class);
+        RatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/latest?symbols="+ first.toString() +","+second.toString()+"&base=" + first.toString(), RatesResponse.class);
         Map<String, String> rates = response.getRates();
         List<ExchangeRate> currencyValues = createExchangeRateObjects(rates);
 
@@ -52,6 +49,18 @@ public class ExchangeRateCalculator
             Map.Entry<String, String> rate = (Map.Entry<String, String>) it.next();
             currencies.add(new ExchangeRate(Currency.valueOf(rate.getKey()), Float.parseFloat(rate.getValue())));
         }
+
         return currencies;
+    }
+
+    public float calculateEquivalentAmount(List<ExchangeRate> rates, Float amount, String second)
+    {
+        Optional<ExchangeRate> secondRate = rates.stream().filter(rate -> rate.getCurrency() == Currency.valueOf(second)).findFirst();
+        if (secondRate.isPresent())
+        {
+            return amount * secondRate.get().getRate();
+        }
+
+        return 0;
     }
 }

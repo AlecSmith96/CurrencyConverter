@@ -34,14 +34,13 @@ public class Controller
   }
 
   @GetMapping("/convert")
-  public ModelAndView performConversion(String first, String second)
+  public ModelAndView performConversion(Float amount, String first, String second)
   {
-      Enum firstCurrency = Currency.valueOf(first);
-      Enum secondCurrency = Currency.valueOf(second);
-      List<ExchangeRate> rates = ratesCalculator.returnExchangeRates(firstCurrency, secondCurrency);
-
+      List<ExchangeRate> rates = ratesCalculator.returnExchangeRates(Currency.valueOf(first), Currency.valueOf(second));
+      Float equivalentAmount = ratesCalculator.calculateEquivalentAmount(rates, amount, second);
       ModelAndView resultsModel = new ModelAndView("result");
-      resultsModel.addObject(rates);
+      resultsModel.addObject("rates", rates);
+      resultsModel.addObject("equivalentAmount", equivalentAmount);
       return resultsModel;
   }
 
