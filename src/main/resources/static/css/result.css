@@ -1,0 +1,11 @@
+#rates-div{
+    border-style: solid;
+    border-color: aqua;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-top: 15%;
+    padding-bottom: 3%;
+}
+td{
+    font-weight: bold;
+}

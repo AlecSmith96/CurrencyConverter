@@ -1,11 +1,17 @@
-package edu.util.currencyconverter;
+package edu.util.currencyconverter.controllers;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
+import edu.util.currencyconverter.ExchangeRateCalculator;
 import edu.util.currencyconverter.data.Currency;
 import edu.util.currencyconverter.data.ExchangeRate;
+import edu.util.currencyconverter.data.GraphData;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +64,7 @@ public class Controller
       ModelAndView resultsModel = new ModelAndView("result");
       resultsModel.addObject("rates", rates);
       resultsModel.addObject("initialAmount", amount);
-      resultsModel.addObject("equivalentAmount", equivalentAmount);
+      resultsModel.addObject("equivalentAmount", String.format("%.02f", equivalentAmount));
       return resultsModel;
   }
 
@@ -66,13 +72,37 @@ public class Controller
   public ModelAndView getRecentRates()
   {
       Map<String, List<ExchangeRate>> ratesByDay = ratesCalculator.getRecentRates();
+      GraphData graphData = getListsForGraph(ratesByDay);
+
       ModelAndView recentRatesView = new ModelAndView("recent-rates");
-      recentRatesView.addObject(ratesByDay);
+      recentRatesView.addObject("days", graphData.getDays());
+      recentRatesView.addObject("usd", graphData.getUsdRates());
+      recentRatesView.addObject("gbp", graphData.getGbpRates());
 
       return recentRatesView;
   }
 
-  /**
+    private GraphData getListsForGraph(Map<String, List<ExchangeRate>> ratesByDay)
+    {
+        GraphData graphData = new GraphData();
+        ratesByDay.entrySet().stream().forEach(day -> {
+            graphData.getDays().add(day.getKey());  //THIS CAUSING NULL POINTER
+            graphData.getUsdRates().add(getRateForDay(Currency.USD, day));
+            graphData.getGbpRates().add(getRateForDay(Currency.GBP, day));
+        });
+
+        return graphData;
+    }
+
+    private Float getRateForDay(Currency currency, Map.Entry<String, List<ExchangeRate>> day)
+    {
+        Optional<ExchangeRate> currencyRateOptional = day.getValue().stream()
+                                                .filter(currencyForDay -> currencyForDay.getCurrency().equals(currency))
+                                                .findFirst();
+        return currencyRateOptional.isPresent() ? currencyRateOptional.get().getRate() : null;
+    }
+
+    /**
    * <p>Controller method for returning to the index page from the results view.</p>
    * @return ModelAndView - view for index page with no data.
    */

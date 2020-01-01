@@ -18,5 +18,10 @@ import lombok.NoArgsConstructor;
 public class ExchangeRate
 {
     private Currency currency;
-    private float rate;
+    private Float rate;
+
+    public String roundToSigFig(int sigFigs)
+    {
+        return  String.format("%.0"+sigFigs+"f", rate);
+    }
 }
