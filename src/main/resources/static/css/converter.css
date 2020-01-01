@@ -6,9 +6,10 @@
 #form-div{
     background-color: aqua;
     margin: 1%;
-    padding: 1%;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 5%;
+    padding-bottom: 5%;
     display:inline-block
 }
 
@@ -20,11 +21,30 @@
 }
 
 #submit-btn{
+    border: none;
+    height: 30px;
 }
 
 #recent-rates-form{
+    padding-top: 2%;
 }
 
+#recent-rates-btn{
+    border: none;
+}
+
+.dropdown-btns{
+    height: 30px;
+    border: none;
+}
+
+#in{
+    padding-top: 2%;
+}
+
+#amount-input{
+    height: 30px;
+}
 /*!*  SHOW CONTAINERS *!*/
 /*div[class="row"] {*/
 /*    outline: 1px dotted rgba(0, 0, 0, 0.25);*/

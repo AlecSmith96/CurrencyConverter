@@ -10,24 +10,30 @@
     <title>Exchange</title>
 </head>
 <body>
-<h1>Currency Converter</h1>
-<div id="container">
+<div class="col-xs-9" align="center">
+    <h1>Currency Converter</h1>
+</div>
+<div id="container" class="col-xs-9" align="center">
     <div id="form-div">
         <form action="/convert" id="input-form">
             <p style=" font-weight:bold;">Value of: </p>
-            <input type="number" name="amount">
-            <select name="first">
-                <option value="GBP">GBP</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-            </select>
-            <p style="font-weight:bold;">in</p>
-            <select name="second">
-                <option value="GBP">GBP</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-            </select>
-            <button id="submit-btn">Submit</button>
+            <div id="amount-and-first">
+                <input type="number" placeholder="Enter amount..." name="amount" id="amount-input" style="float: left">
+                <select name="first" class="dropdown-btns" style="float: right">
+                    <option value="GBP">GBP</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+            <p style="font-weight:bold;" id="in">in</p>
+            <div id="second-and-submit">
+                <select name="second" class="dropdown-btns" style="float: left">
+                    <option value="GBP">GBP</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+                <button id="submit-btn" style="float: right">Submit</button>
+            </div>
         </form>
         <form action="/recentRates" id="recent-rates-form">
             <button id="recent-rates-btn">Get Recent Rates</button>

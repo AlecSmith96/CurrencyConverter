@@ -55,16 +55,17 @@ public class Controller
   {
       List<ExchangeRate> rates = ratesCalculator.returnExchangeRates(Currency.valueOf(first), Currency.valueOf(second));
       Float equivalentAmount = ratesCalculator.calculateEquivalentAmount(rates, amount, second);
+      String equivalentAmountString = Currency.valueOf(first).getSymbol()+amount+" is equivalent to " + Currency.valueOf(second).getSymbol()+String.format("%.02f", equivalentAmount);
 
-      return viewWithModels(amount, rates, equivalentAmount);
+      return viewWithModels(amount, rates, equivalentAmountString);
   }
 
-  private ModelAndView viewWithModels(Float amount, List<ExchangeRate> rates, Float equivalentAmount)
+  private ModelAndView viewWithModels(Float amount, List<ExchangeRate> rates, String equivalentAmount)
   {
       ModelAndView resultsModel = new ModelAndView("result");
       resultsModel.addObject("rates", rates);
       resultsModel.addObject("initialAmount", amount);
-      resultsModel.addObject("equivalentAmount", String.format("%.02f", equivalentAmount));
+      resultsModel.addObject("equivalentAmount", equivalentAmount);
       return resultsModel;
   }
 

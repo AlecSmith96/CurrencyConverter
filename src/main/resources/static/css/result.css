@@ -1,11 +1,22 @@
 #rates-div{
     border-style: solid;
     border-color: aqua;
+    font-weight: bold;
     margin-left: 40%;
     margin-right: 40%;
     margin-top: 15%;
     padding-bottom: 3%;
 }
-td{
-    font-weight: bold;
+
+#amount-results-div{
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+#submit-btn{
+    border: none;
+    background-color: aqua;
+    color: white;
+    padding: 1%;
+    font-size: 150%;
 }
