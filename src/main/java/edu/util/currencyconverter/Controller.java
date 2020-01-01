@@ -5,6 +5,7 @@ import edu.util.currencyconverter.data.ExchangeRate;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +59,17 @@ public class Controller
       resultsModel.addObject("rates", rates);
       resultsModel.addObject("initialAmount", amount);
       resultsModel.addObject("equivalentAmount", equivalentAmount);
-        return resultsModel;
+      return resultsModel;
+  }
+
+  @GetMapping("/recentRates")
+  public ModelAndView getRecentRates()
+  {
+      Map<String, List<ExchangeRate>> ratesByDay = ratesCalculator.getRecentRates();
+      ModelAndView recentRatesView = new ModelAndView("recent-rates");
+      recentRatesView.addObject(ratesByDay);
+
+      return recentRatesView;
   }
 
   /**

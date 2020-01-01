@@ -1,11 +1,12 @@
 package edu.util.currencyconverter;
 
-import edu.util.currencyconverter.data.Currency;
-import edu.util.currencyconverter.data.ExchangeRate;
-import edu.util.currencyconverter.data.RatesResponse;
+import edu.util.currencyconverter.data.*;
 
+import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
+import edu.util.currencyconverter.data.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,28 @@ public class ExchangeRateCalculator
         }
 
         return currencies;
+    }
+
+    /**
+     * <p>Method for querying the exchangerates.io api and returning all exchange rates for all currencies for the last
+     * month.</p>
+     * @return Map<String, List<ExchangeRate>> - Map containing timestamp of day as key and a list containing an
+     *                                           ExchangeRate object for each currency as the value.
+     */
+    public Map<String, List<ExchangeRate>> getRecentRates()
+    {
+//        TimeUnit todaysDate = new TimeUnit();         //use this for getting previous months rates
+        RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at=2018-11-30&end_at=2018-12-31&symbols=USD,GBP", RecentRatesResponse.class);
+        Map<String, Map<String, String>> ratesForTimePeriod = response.getRates();
+        Map<String, List<ExchangeRate>> ratesByDay = new HashMap<>();
+
+        ratesForTimePeriod.entrySet().stream().forEach(ratesForDay -> {
+            String timestamp = ratesForDay.getKey();
+            List<ExchangeRate> currencyValues = createExchangeRateObjects(ratesForDay.getValue());
+            ratesByDay.put(timestamp, currencyValues);
+        });
+
+        return ratesByDay;
     }
 
     /**
