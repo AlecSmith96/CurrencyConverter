@@ -13,8 +13,8 @@
 </head>
 <body>
     <h1>Exchange rates for the past month</h1>
-    <p>Rates are calculated against a base of 1.0 EUR</p>
     <div class="col-xs-9" align="center">
+        <p>Rates are calculated against a base of 1.0 EUR</p>
         <canvas id="lineChart" class="col-md-9" align="center"></canvas>
     </div>
 
@@ -31,13 +31,16 @@
 <script xmlns:th="http://www.thymeleaf.org" th:inline="javascript">
 //line
 var ctxL = document.getElementById("lineChart").getContext('2d');
+var days = /*[[${days}]]*/ 'labels placeholder'
+var usd = /*[[${usd}]]*/ 'labels placeholder'
+var gbp = /*[[${gbp}]]*/ 'labels placeholder'
 var myLineChart = new Chart(ctxL, {
 type: 'line',
 data: {
-labels: ["January", "February", "March", "April", "May", "June", "July"],
+labels: days,
 datasets: [{
-label: "My First dataset",
-data: [65, 59, 80, 81, 56, 55, 40],
+label: "USD",
+data: usd,
 backgroundColor: [
 'rgba(105, 0, 132, .2)',
 ],
@@ -47,8 +50,8 @@ borderColor: [
 borderWidth: 2
 },
 {
-label: "My Second dataset",
-data: [28, 48, 40, 19, 86, 27, 90],
+label: "GBP",
+data: gbp,
 backgroundColor: [
 'rgba(0, 137, 132, .2)',
 ],

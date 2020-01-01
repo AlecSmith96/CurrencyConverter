@@ -12,9 +12,6 @@
 <body>
 <h1>Currency Converter</h1>
 <div id="container">
-    <form action="/recentRates" id="recent-rates-form">
-        <button id="recent-rates-btn">Get Recent Rates</button>
-    </form>
     <div id="form-div">
         <form action="/convert" id="input-form">
             <p style=" font-weight:bold;">Value of: </p>
@@ -31,6 +28,9 @@
                 <option value="EUR">EUR</option>
             </select>
             <button id="submit-btn">Submit</button>
+        </form>
+        <form action="/recentRates" id="recent-rates-form">
+            <button id="recent-rates-btn">Get Recent Rates</button>
         </form>
     </div>
 </div>

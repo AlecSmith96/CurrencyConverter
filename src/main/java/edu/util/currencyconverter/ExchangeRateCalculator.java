@@ -71,8 +71,13 @@ public class ExchangeRateCalculator
 //        TimeUnit todaysDate = new TimeUnit();         //use this for getting previous months rates
         RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at=2018-11-30&end_at=2018-12-31&symbols=USD,GBP", RecentRatesResponse.class);
         Map<String, Map<String, String>> ratesForTimePeriod = response.getRates();
-        Map<String, List<ExchangeRate>> ratesByDay = new HashMap<>();
 
+        return mapOfRatesByDay(ratesForTimePeriod);
+    }
+
+    private Map<String, List<ExchangeRate>> mapOfRatesByDay(Map<String, Map<String, String>> ratesForTimePeriod)
+    {
+        Map<String, List<ExchangeRate>> ratesByDay = new HashMap<>();
         ratesForTimePeriod.entrySet().stream().forEach(ratesForDay -> {
             String timestamp = ratesForDay.getKey();
             List<ExchangeRate> currencyValues = createExchangeRateObjects(ratesForDay.getValue());
