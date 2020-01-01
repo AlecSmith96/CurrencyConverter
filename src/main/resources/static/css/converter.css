@@ -9,7 +9,7 @@
     padding-left: 3%;
     padding-right: 3%;
     padding-top: 5%;
-    padding-bottom: 5%;
+    padding-bottom: 3%;
     display:inline-block
 }
 
@@ -22,15 +22,17 @@
 
 #submit-btn{
     border: none;
+    width: 180px;
     height: 30px;
 }
 
 #recent-rates-form{
-    padding-top: 2%;
+    padding-top: 5%;
 }
 
 #recent-rates-btn{
     border: none;
+    height: 30px;
 }
 
 .dropdown-btns{

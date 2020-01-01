@@ -45,7 +45,7 @@ public class Controller
   }
 
   /**
-   * <p>Controller method invoke when index page form is submitted, perforns conversion from base currency to
+   * <p>Controller method invoked when index page form is submitted, performs conversion from base currency to
    * conversion currency and returns results to result view.</p>
    * @return ModelAndView - object containing Model objects containing results of conversion and the template to send
    *                        them to.
@@ -69,6 +69,11 @@ public class Controller
       return resultsModel;
   }
 
+    /**
+     * <p>Controller method to get exchange rates of all currencies for last 30 days and pass them to recent-rates view.</p>
+     * @return ModelAndView - object containing Model objects containing rates for the last 30 days and the template to
+     *                        send them to.
+     */
   @GetMapping("/recentRates")
   public ModelAndView getRecentRates()
   {
@@ -83,25 +88,23 @@ public class Controller
       return recentRatesView;
   }
 
-    private GraphData getListsForGraph(Map<String, List<ExchangeRate>> ratesByDay)
-    {
-        GraphData graphData = new GraphData();
-        ratesByDay.entrySet().stream().forEach(day -> {
-            graphData.getDays().add(day.getKey());  //THIS CAUSING NULL POINTER
-            graphData.getUsdRates().add(getRateForDay(Currency.USD, day));
-            graphData.getGbpRates().add(getRateForDay(Currency.GBP, day));
-        });
-
-        return graphData;
-    }
-
-    private Float getRateForDay(Currency currency, Map.Entry<String, List<ExchangeRate>> day)
-    {
-        Optional<ExchangeRate> currencyRateOptional = day.getValue().stream()
-                                                .filter(currencyForDay -> currencyForDay.getCurrency().equals(currency))
-                                                .findFirst();
-        return currencyRateOptional.isPresent() ? currencyRateOptional.get().getRate() : null;
-    }
+  private GraphData getListsForGraph(Map<String, List<ExchangeRate>> ratesByDay)
+  {
+      GraphData graphData = new GraphData();
+      ratesByDay.entrySet().stream().forEach(day -> {
+          graphData.getDays().add(day.getKey());  //THIS CAUSING NULL POINTER
+          graphData.getUsdRates().add(getRateForDay(Currency.USD, day));
+          graphData.getGbpRates().add(getRateForDay(Currency.GBP, day));
+      });
+      return graphData;
+  }
+  private Float getRateForDay(Currency currency, Map.Entry<String, List<ExchangeRate>> day)
+  {
+      Optional<ExchangeRate> currencyRateOptional = day.getValue().stream()
+              .filter(currencyForDay -> currencyForDay.getCurrency().equals(currency))
+              .findFirst();
+      return currencyRateOptional.isPresent() ? currencyRateOptional.get().getRate() : null;
+  }
 
     /**
    * <p>Controller method for returning to the index page from the results view.</p>
