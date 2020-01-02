@@ -3,10 +3,14 @@ package edu.util.currencyconverter;
 import edu.util.currencyconverter.data.*;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import edu.util.currencyconverter.data.Currency;
+
+import javax.xml.crypto.Data;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
@@ -68,11 +72,26 @@ public class ExchangeRateCalculator
      */
     public Map<String, List<ExchangeRate>> getRecentRates()
     {
-//        TimeUnit todaysDate = new TimeUnit();         //use this for getting previous months rates
-        RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at=2018-11-30&end_at=2018-12-31&symbols=USD,GBP", RecentRatesResponse.class);
+        Map<String, String> dates = getDates();
+        RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at="+dates.get("lastMonth")+"&end_at="+dates.get("today")+"&symbols=USD,GBP", RecentRatesResponse.class);
         Map<String, Map<String, String>> ratesForTimePeriod = response.getRates();
 
         return mapOfRatesByDay(ratesForTimePeriod);
+    }
+
+    private Map<String, String> getDates()
+    {
+        Date today = new Date();
+        Date lastMonth = new Date();
+        lastMonth.setTime(System.currentTimeMillis() - Long.valueOf("2629800000"));
+        today.setTime(System.currentTimeMillis());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        Map<String, String> dates = new HashMap<>();
+        dates.put("today", formatter.format(today));
+        dates.put("lastMonth", formatter.format(lastMonth));
+
+        return dates;
     }
 
     private Map<String, List<ExchangeRate>> mapOfRatesByDay(Map<String, Map<String, String>> ratesForTimePeriod)
