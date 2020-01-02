@@ -36,33 +36,56 @@ var ctxL = document.getElementById("lineChart").getContext('2d');
 var days = /*[[${days}]]*/ 'labels placeholder'
 var usd = /*[[${usd}]]*/ 'labels placeholder'
 var gbp = /*[[${gbp}]]*/ 'labels placeholder'
+var pln = /*[[${pln}]]*/ 'labels placeholder'
+var jpy = /*[[${jpy}]]*/ 'labels placeholder'
 var myLineChart = new Chart(ctxL, {
 type: 'line',
 data: {
-labels: days,
-datasets: [{
-label: "USD",
-data: usd,
-backgroundColor: [
-'rgba(105, 0, 132, .2)',
-],
-borderColor: [
-'rgba(200, 99, 132, .7)',
-],
-borderWidth: 2
-},
-{
-label: "GBP",
-data: gbp,
-backgroundColor: [
-'rgba(0, 137, 132, .2)',
-],
-borderColor: [
-'rgba(0, 10, 130, .7)',
-],
-borderWidth: 2
-}
-]
+    labels: days,
+    datasets: [{
+        label: "USD",
+        data: usd,
+        backgroundColor: [
+        'rgba(105, 0, 132, .2)',
+        ],
+        borderColor: [
+        'rgba(200, 99, 132, .7)',
+        ],
+        borderWidth: 2
+        },
+        {
+            label: "PLN",
+            data: pln,
+            backgroundColor: [
+                'rgba(3,130,7,0.57)',
+            ],
+            borderColor: [
+                'rgba(65,200,44,0.7)',
+            ],
+            borderWidth: 2
+        },
+        {
+            label: "JPY",
+            data: jpy,
+            backgroundColor: [
+                'rgba(130,5,9,0.57)',
+            ],
+            borderColor: [
+                'rgba(200,8,68,0.7)',
+            ],
+            borderWidth: 2
+        },
+        {
+        label: "GBP",
+        data: gbp,
+        backgroundColor: [
+        'rgba(0, 137, 132, .2)',
+        ],
+        borderColor: [
+        'rgba(0, 10, 130, .7)',
+        ],
+        borderWidth: 2
+    }]
 },
 options: {
 responsive: true

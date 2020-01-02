@@ -18,11 +18,13 @@
         <form action="/convert" id="input-form">
             <p style=" font-weight:bold;">Value of: </p>
             <div id="amount-and-first">
-                <input type="number" placeholder="Enter amount..." name="amount" id="amount-input" style="float: left">
+                <input type="number" step=".01" placeholder="Enter amount..." name="amount" id="amount-input" style="float: left">
                 <select name="first" class="dropdown-btns" style="float: right">
                     <option value="GBP">GBP</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
+                    <option value="JPY">JPY</option>
+                    <option value="PLN">PLN</option>
                 </select>
             </div>
             <p style="font-weight:bold;" id="in">in</p>
@@ -31,6 +33,8 @@
                     <option value="GBP">GBP</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
+                    <option value="JPY">JPY</option>
+                    <option value="PLN">PLN</option>
                 </select>
                 <button id="submit-btn">Submit</button>
             </div>

@@ -73,7 +73,7 @@ public class ExchangeRateCalculator
     public Map<String, List<ExchangeRate>> getRecentRates()
     {
         Map<String, String> dates = getDates();
-        RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at="+dates.get("lastMonth")+"&end_at="+dates.get("today")+"&symbols=USD,GBP", RecentRatesResponse.class);
+        RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at="+dates.get("lastMonth")+"&end_at="+dates.get("today")+"&symbols=USD,GBP,PLN,JPY", RecentRatesResponse.class);
         Map<String, Map<String, String>> ratesForTimePeriod = response.getRates();
 
         return mapOfRatesByDay(ratesForTimePeriod);
@@ -103,7 +103,8 @@ public class ExchangeRateCalculator
             ratesByDay.put(timestamp, currencyValues);
         });
 
-        return ratesByDay;
+        Map<String, List<ExchangeRate>> sortedMap = new TreeMap<String, List<ExchangeRate>>(ratesByDay);
+        return sortedMap;
     }
 
     /**

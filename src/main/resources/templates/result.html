@@ -23,6 +23,10 @@
         <tr th:if="${rates.isEmpty()}">
             <td colspan="2" style="font-weight: bold"> No rates Available </td>
         </tr>
+        <tr th:if="${rates.size() == 1}">
+            <td><span th:text="${rates.get(0).getCurrency()}"> Currency </span></td>
+            <td><span th:text="${rates.get(0).roundToSigFig(5)}"> Rate </span></td>
+        </tr>
         <tr th:each="rate : ${rates}" style="font-weight: bold">
             <td><span th:text="${rate.currency}"> Currency </span></td>
             <td><span th:text="${rate.roundToSigFig(5)}"> Rate </span></td>
@@ -32,7 +36,7 @@
 </div>
 
 <div id="amount-results-div" class="col-xs-9" align="center">
-    <h1 th:text="${equivalentAmount}">equivalent amount</h1>
+    <h2 th:text="${equivalentAmount}">equivalent amount</h2>
 </div>
 
 <form action="/home" id="input-form" align="center">

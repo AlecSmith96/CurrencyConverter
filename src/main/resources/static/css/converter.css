@@ -13,7 +13,8 @@
     padding-right: 3%;
     padding-top: 5%;
     padding-bottom: 3%;
-    display:inline-block
+    display:inline-block;
+    border-radius: 15px;
 }
 
 #rates-div{
@@ -28,6 +29,8 @@
     border: none;
     width: 180px;
     height: 30px;
+    border-radius: 5px;
+
 }
 
 #recent-rates-form{
@@ -38,6 +41,8 @@
     border: none;
     height: 30px;
     background-color: white;
+    border-radius: 5px;
+
 }
 
 .dropdown-btns{

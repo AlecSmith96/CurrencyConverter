@@ -13,7 +13,9 @@ public enum Currency
 {
     GBP("GBP", "£"),
     USD("USD", "$"),
-    EUR("EUR", "\\u20AC");
+    PLN("PLN", "&#122"),
+    JPY("JPY", "&#165"),
+    EUR("EUR", "\\u20ac");
     private String value;
     private String symbol;
 

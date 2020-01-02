@@ -62,6 +62,10 @@ public class Controller
 
   private ModelAndView viewWithModels(Float amount, List<ExchangeRate> rates, String equivalentAmount)
   {
+      if (rates.size() == 1)
+      {
+          equivalentAmount = rates.get(0).getCurrency().getSymbol()+amount+" is obviously equivalent to "+rates.get(0).getCurrency().getSymbol()+amount+" you lunatic.";
+      }
       ModelAndView resultsModel = new ModelAndView("result");
       resultsModel.addObject("rates", rates);
       resultsModel.addObject("initialAmount", amount);
@@ -84,6 +88,8 @@ public class Controller
       recentRatesView.addObject("days", graphData.getDays());
       recentRatesView.addObject("usd", graphData.getUsdRates());
       recentRatesView.addObject("gbp", graphData.getGbpRates());
+      recentRatesView.addObject("pln", graphData.getPlnRates());
+      recentRatesView.addObject("jpy", graphData.getJpyRates());
 
       return recentRatesView;
   }
@@ -95,6 +101,8 @@ public class Controller
           graphData.getDays().add(day.getKey());  //THIS CAUSING NULL POINTER
           graphData.getUsdRates().add(getRateForDay(Currency.USD, day));
           graphData.getGbpRates().add(getRateForDay(Currency.GBP, day));
+          graphData.getPlnRates().add(getRateForDay(Currency.PLN, day));
+          graphData.getJpyRates().add(getRateForDay(Currency.JPY, day));
       });
       return graphData;
   }
