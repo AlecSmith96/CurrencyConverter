@@ -29,4 +29,9 @@ public enum Currency
     {
         return symbol;
     }
+
+    public String getValue()
+    {
+        return value;
+    }
 }

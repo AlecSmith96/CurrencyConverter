@@ -85,8 +85,13 @@ public class ExchangeRateCalculator
         Date lastMonth = new Date();
         lastMonth.setTime(System.currentTimeMillis() - Long.valueOf("2629800000"));
         today.setTime(System.currentTimeMillis());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+        return formattedDates(today, lastMonth);
+    }
+
+    private Map<String, String> formattedDates(Date today, Date lastMonth)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Map<String, String> dates = new HashMap<>();
         dates.put("today", formatter.format(today));
         dates.put("lastMonth", formatter.format(lastMonth));
@@ -103,8 +108,7 @@ public class ExchangeRateCalculator
             ratesByDay.put(timestamp, currencyValues);
         });
 
-        Map<String, List<ExchangeRate>> sortedMap = new TreeMap<String, List<ExchangeRate>>(ratesByDay);
-        return sortedMap;
+        return new TreeMap<>(ratesByDay);
     }
 
     /**
