@@ -26,8 +26,15 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ExchangeRateCalculatorTest
 {
-    public static final String FIRST_RATE = "1.000";
-    public static final String SECOND_RATE = "2.000";
+    @InjectMocks
+    private ExchangeRateCalculator target;
+    @Mock
+    private RestTemplate restTemplate;
+
+    public static final float FIRST_RATE = 1;
+    public static final float SECOND_RATE = 2;
+    public static final String FIRST_RATE_STRING = "1.000";
+    public static final String SECOND_RATE_STRING = "2.000";
     private Fixture fixture;
     private static final Currency FIRST_CURRENCY = Currency.GBP;
     private static final Currency SECOND_CURRENCY = Currency.USD;
@@ -46,12 +53,11 @@ public class ExchangeRateCalculatorTest
         fixture.thenValidateCurrenciesAndRatesAreCorrect();
     }
 
+    @Test
+    public void getRecentRates
+
     private class Fixture
     {
-        private ExchangeRateCalculator target = new ExchangeRateCalculator();
-        @Mock
-        private RestTemplate restTemplate;
-
         private List<ExchangeRate> result;
 
         private Fixture()
@@ -62,8 +68,8 @@ public class ExchangeRateCalculatorTest
         public void givenGetForObjectReturnsResults()
         {
             Map<String, String> rates = new HashMap<>();
-            rates.put(FIRST_CURRENCY.getValue(), FIRST_RATE);
-            rates.put(SECOND_CURRENCY.getValue(), SECOND_RATE);
+            rates.put(FIRST_CURRENCY.getValue(), FIRST_RATE_STRING);
+            rates.put(SECOND_CURRENCY.getValue(), SECOND_RATE_STRING);
             RatesResponse response = new RatesResponse();
             response.setRates(rates);
             when(restTemplate.getForObject("https://api.exchangeratesapi.io/latest?symbols="+ FIRST_CURRENCY.getValue() +","+SECOND_CURRENCY.getValue()+"&base=" + FIRST_CURRENCY.getValue(), RatesResponse.class)).thenReturn(response);
@@ -76,10 +82,10 @@ public class ExchangeRateCalculatorTest
 
         void thenValidateCurrenciesAndRatesAreCorrect()
         {
-            assertTrue(result.contains(FIRST_CURRENCY));
-            assertTrue(result.contains(SECOND_CURRENCY));
-            assertTrue(result.get(0).getRate().equals(FIRST_CURRENCY));
-            assertTrue(result.get(1).getRate().equals(SECOND_CURRENCY));
+            assertTrue(result.get(0).getCurrency().equals(FIRST_CURRENCY));
+            assertTrue(result.get(0).getRate().equals(FIRST_RATE));
+            assertTrue(result.get(1).getCurrency().equals(SECOND_CURRENCY));
+            assertTrue(result.get(1).getRate().equals(SECOND_RATE));
         }
 
     }
