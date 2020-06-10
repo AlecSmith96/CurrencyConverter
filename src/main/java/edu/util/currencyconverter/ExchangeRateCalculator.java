@@ -30,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 public class ExchangeRateCalculator
 {
     private RestTemplate restTemplate;
+    Map<String, String> dates = getDates();
 
     @Autowired
     public void HelloController(RestTemplateBuilder builder) {
@@ -72,7 +73,6 @@ public class ExchangeRateCalculator
      */
     public Map<String, List<ExchangeRate>> getRecentRates()
     {
-        Map<String, String> dates = getDates();
         RecentRatesResponse response = restTemplate.getForObject("https://api.exchangeratesapi.io/history?start_at="+dates.get("lastMonth")+"&end_at="+dates.get("today")+"&symbols=USD,GBP,PLN,JPY", RecentRatesResponse.class);
         Map<String, Map<String, String>> ratesForTimePeriod = response.getRates();
 

@@ -12,7 +12,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -25,20 +27,33 @@ public class ControllerTest
     @Mock
     private ExchangeRateCalculator rateCalculator;
 
-    public static final float INITIAL_AMOUNT = 10;
-    public static final float EQUIVALENT_AMOUNT = 20;
-    public static final String FIRST_STRING = "GBP";
-    public static final String SECOND_STRING = "USD";
-    public static final String EQUIVALENT_AMOUNT_STRING = "£10.0 is equivalent to $20.00";
-    public static final String SINGLE_RATE_AMOUNT_STRING = "£10.0 is obviously equivalent to £10.0 you lunatic.";
-    public static final List<ExchangeRate> EXCHANGE_RATES = getExchangeRatesToReturn();
-    public static final List<ExchangeRate> SINGLE_RATE = getSingleExchangeRate();
+    private static final String CONVERTER = "converter";
+    private static final float INITIAL_AMOUNT = 10;
+    private static final float EQUIVALENT_AMOUNT = 20;
+    private static final String FIRST_STRING = "GBP";
+    private static final String SECOND_STRING = "USD";
+    private static final String EQUIVALENT_AMOUNT_STRING = "£10.0 is equivalent to $20.00";
+    private static final String SINGLE_RATE_AMOUNT_STRING = "£10.0 is obviously equivalent to £10.0 you lunatic.";
+    private static final List<ExchangeRate> EXCHANGE_RATES = getExchangeRatesToReturn();
+    private static final List<ExchangeRate> SINGLE_RATE = getSingleExchangeRate();
+
+    private ModelAndView indexResult;
+    private ModelAndView result;
+    private ModelAndView returnHomeResult;
+    private ModelAndView recentRatesResult;
     private Fixture fixture;
 
     @Before
     public void before()
     {
         fixture = new Fixture();
+    }
+
+    @Test
+    public void getIndexPage_returnsCorrectModelAndViewObject()
+    {
+        fixture.whenGetIndexPageIsCalled();
+        fixture.thenAssertCorrectView(indexResult);
     }
 
     @Test
@@ -60,6 +75,21 @@ public class ControllerTest
         fixture.thenAssertCorrectModelsAndView("result", SINGLE_RATE_AMOUNT_STRING);
     }
 
+    @Test
+    public void getRecentRates_returnsCorrectRatesForAllCurrencies()
+    {
+        fixture.givenRecentRatesAreReturned();
+        fixture.whenGetRecentRatesIsCalled();
+        fixture.thenAssertRecentRatesAreCorrect();
+    }
+
+    @Test
+    public void returnToHomePage_returnsCorrectModelAndViewObject()
+    {
+        fixture.whenReturnToHomepageIsCalled();
+        fixture.thenAssertCorrectView(returnHomeResult);
+    }
+
     private static List<ExchangeRate> getExchangeRatesToReturn()
     {
         List<ExchangeRate> rates = new ArrayList<>();
@@ -78,8 +108,6 @@ public class ControllerTest
 
     private class Fixture
     {
-        ModelAndView result = new ModelAndView();
-
         void givenExchangeRatesGetReturned(String first, String second)
         {
             if (!first.equals(second))
@@ -96,12 +124,41 @@ public class ControllerTest
         {
             if (rates.size() > 1)
             {
-                when(rateCalculator.calculateEquivalentAmount(rates, INITIAL_AMOUNT, SECOND_STRING)).thenReturn((float) EQUIVALENT_AMOUNT);
+                when(rateCalculator.calculateEquivalentAmount(rates, INITIAL_AMOUNT, SECOND_STRING)).thenReturn(EQUIVALENT_AMOUNT);
             }
             else
             {
-                when(rateCalculator.calculateEquivalentAmount(rates, INITIAL_AMOUNT, SECOND_STRING)).thenReturn((float) INITIAL_AMOUNT);
+                when(rateCalculator.calculateEquivalentAmount(rates, INITIAL_AMOUNT, FIRST_STRING)).thenReturn(INITIAL_AMOUNT);
             }
+        }
+
+        void givenRecentRatesAreReturned()
+        {
+            Map<String, List<ExchangeRate>> result = createRecentRates();
+            when(rateCalculator.getRecentRates()).thenReturn(result);
+        }
+
+        private HashMap<String, List<ExchangeRate>> createRecentRates()
+        {
+            Map<String, List<ExchangeRate>> result = new HashMap<>();
+            createEntry(result, "2020-01-01", 1);
+            createEntry(result, "2020-01-02", 2);
+            return new HashMap<>();
+        }
+
+        private void createEntry(Map<String, List<ExchangeRate>> result, String date, int multiplier)
+        {
+            List<ExchangeRate> rates = new ArrayList<>();
+            rates.add(new ExchangeRate(Currency.GBP, (float) 1 * multiplier));
+            rates.add(new ExchangeRate(Currency.USD, (float) 2 * multiplier));
+            rates.add(new ExchangeRate(Currency.PLN, (float) 3 * multiplier));
+            rates.add(new ExchangeRate(Currency.JPY, (float) 4 * multiplier));
+            result.put(date, rates);
+        }
+
+        void whenGetIndexPageIsCalled()
+        {
+            indexResult = target.getIndexPage();
         }
 
         void whenReturnExchangeRatesIsCalled()
@@ -114,6 +171,21 @@ public class ControllerTest
             result = target.performConversion(INITIAL_AMOUNT, FIRST_STRING, FIRST_STRING);
         }
 
+        void whenGetRecentRatesIsCalled()
+        {
+            recentRatesResult = target.getRecentRates();
+        }
+
+        void whenReturnToHomepageIsCalled()
+        {
+            returnHomeResult = target.returnToHomePage();
+        }
+
+        void thenAssertCorrectView(ModelAndView view)
+        {
+            assertTrue(view.getViewName().equals(CONVERTER));
+        }
+
         void thenAssertCorrectModelsAndView(String viewName, String amountString)
         {
             assertTrue(result.getViewName().equals(viewName));
@@ -121,6 +193,23 @@ public class ControllerTest
             assertTrue(result.getModelMap().containsKey("initialAmount"));
             assertTrue(result.getModelMap().containsKey("equivalentAmount"));
             assertTrue(result.getModel().get("equivalentAmount").equals(amountString));
+        }
+
+        void thenAssertRecentRatesAreCorrect()
+        {
+            assertTrue(recentRatesResult.getViewName().equals("recent-rates"));
+            List<String> list = (List) recentRatesResult.getModel().get("days");
+            assertTrue(recentRatesResult.getModel().get("days").equals(getListOfDays()));
+        }
+
+        private void getListOfDays()
+        {
+            List<String> days = new ArrayList<>();
+            days.add("2020-01-01");
+            days.add("2020-01-02");
+//            Map.Entry<String, List<String>> daysModel = new Map.Entry<>();
+
+//            return new Map.Entry<String, List<String>>();
         }
 
         void thenAssertCorrectExchangeRatesAreSentToView(List<ExchangeRate> rates)
