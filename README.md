@@ -2,7 +2,7 @@
 Web service that converts an amount of one currency to another using up to date exchange rates gathered from the exchangerates.io api.
 
 ### Getting Started
-Since there are no pre-requisites for this project the only thing needed is for the project itself to be cloned.
+Since there are no pre-requisites for this project so the only thing needed is for the project itself to be cloned.
 
 ### Running the tests
 The project contains a set of unit tests written using JUnit test framework. All tests can be run from the test directory.
