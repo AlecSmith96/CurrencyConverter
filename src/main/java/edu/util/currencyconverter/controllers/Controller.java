@@ -106,6 +106,7 @@ public class Controller
       });
       return graphData;
   }
+
   private Float getRateForDay(Currency currency, Map.Entry<String, List<ExchangeRate>> day)
   {
       Optional<ExchangeRate> currencyRateOptional = day.getValue().stream()

@@ -138,12 +138,12 @@ public class ControllerTest
             when(rateCalculator.getRecentRates()).thenReturn(result);
         }
 
-        private HashMap<String, List<ExchangeRate>> createRecentRates()
+        private Map<String, List<ExchangeRate>> createRecentRates()
         {
             Map<String, List<ExchangeRate>> result = new HashMap<>();
             createEntry(result, "2020-01-01", 1);
             createEntry(result, "2020-01-02", 2);
-            return new HashMap<>();
+            return result;
         }
 
         private void createEntry(Map<String, List<ExchangeRate>> result, String date, int multiplier)
@@ -202,14 +202,15 @@ public class ControllerTest
             assertTrue(recentRatesResult.getModel().get("days").equals(getListOfDays()));
         }
 
-        private void getListOfDays()
+        private List<String> getListOfDays()
         {
             List<String> days = new ArrayList<>();
             days.add("2020-01-01");
             days.add("2020-01-02");
-//            Map.Entry<String, List<String>> daysModel = new Map.Entry<>();
+            Map<String, List<String>> map = new HashMap<>();
+            map.put("days", days);
 
-//            return new Map.Entry<String, List<String>>();
+            return map.get("days");
         }
 
         void thenAssertCorrectExchangeRatesAreSentToView(List<ExchangeRate> rates)
