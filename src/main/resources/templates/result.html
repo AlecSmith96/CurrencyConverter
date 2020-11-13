@@ -14,34 +14,49 @@
 <div class="col-xs-9" align="center">
     <h1>Conversion Results</h1>
 </div>
-
-<div id="rates-div" class="col-xs-9" align="center">
-    <p>Current exchange rate:</p>
-    <table>
-        <thead><tr></tr></thead>
-        <tbody>
-        <tr th:if="${rates.isEmpty()}">
-            <td colspan="2" style="font-weight: bold"> No rates Available </td>
-        </tr>
-        <tr th:if="${rates.size() == 1}">
-            <td><span th:text="${rates.get(0).getCurrency()}"> Currency </span></td>
-            <td><span th:text="${rates.get(0).roundToSigFig(5)}"> Rate </span></td>
-        </tr>
-        <tr th:each="rate : ${rates}" style="font-weight: bold">
-            <td><span th:text="${rate.currency}"> Currency </span></td>
-            <td><span th:text="${rate.roundToSigFig(5)}"> Rate </span></td>
-        </tr>
-        </tbody>
-    </table>
+<br>
+<br>
+<div class="d-flex justify-content-center">
+    <div id="rates-div" class="card col-md-6 border-info p-0 my-auto" align="center">
+        <div class="card-header">
+            <div id="amount-results-div" class="col-xs-9" align="center">
+                <h2 th:text="${equivalentAmount}">equivalent amount</h2>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>Current exchange rate:</p>
+            <table>
+                <thead><tr></tr></thead>
+                <tbody>
+                <tr th:if="${rates.isEmpty()}">
+                    <td colspan="2" style="font-weight: bold"> No rates Available </td>
+                </tr>
+                <tr th:if="${rates.size() == 1}">
+                    <td><span th:text="${rates.get(0).getCurrency()}"> Currency </span></td>
+                    <td><span th:text="${rates.get(0).roundToSigFig(5)}"> Rate </span></td>
+                </tr>
+                <tr th:each="rate : ${rates}" style="font-weight: bold">
+                    <td><span th:text="${rate.currency}"> Currency </span></td>
+                    <td><span th:text="${rate.roundToSigFig(5)}"> Rate </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<div id="amount-results-div" class="col-xs-9" align="center">
-    <h2 th:text="${equivalentAmount}">equivalent amount</h2>
-</div>
+<br>
+<br>
 
 <form action="/home" id="input-form" align="center">
-    <button id="submit-btn">New Conversion</button>
+    <button id="submit-btn" class="bg-info">New Conversion</button>
 </form>
+
+<div>
+    <div class="bg-light fixed-bottom align-middle text-center">
+        <p>Copyright Alec R. C. Smith 2020</p>
+    </div>
+</div>
 
 </body>
 </html>

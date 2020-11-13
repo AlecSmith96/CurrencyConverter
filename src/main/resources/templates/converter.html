@@ -13,10 +13,19 @@
 <div class="col-xs-9" align="center">
     <h1>Currency Converter</h1>
 </div>
-<div id="container" class="col-xs-9" align="center">
-    <div id="form-div">
+<br>
+<div id="info-container" class="d-flex justify-content-center">
+    <div class="card col-xs-10 border-info">
+        <p>Spring boot web service used to convert one currency to another.</p>
+        <p>Source code can be found at <a href="https://github.com/AlecSmith96/CurrencyConverter">https://github.com/AlecSmith96/CurrencyConverter.</a></p>
+        <p>Containerized using Docker and hosted in a DigitalOcean droplet.</p>
+    </div>
+</div>
+
+<div id="container" class="col-xs-9 text-white" align="center">
+    <div id="form-div" class="bg-info">
         <form action="/convert" id="input-form">
-            <p style=" font-weight:bold;">Value of: </p>
+            <p>Value of: </p>
             <div id="amount-and-first">
                 <input type="number" step=".01" placeholder="Enter amount..." name="amount" id="amount-input" style="float: left" required>
                 <select name="first" class="dropdown-btns" style="float: right">
@@ -27,7 +36,7 @@
                     <option value="PLN">PLN</option>
                 </select>
             </div>
-            <p style="font-weight:bold;" id="in">in</p>
+            <p id="in">in</p>
             <div id="second-and-submit">
                 <select name="second" class="dropdown-btns" style="float: left">
                     <option value="GBP">GBP</option>
@@ -42,6 +51,11 @@
         <form action="/recentRates" id="recent-rates-form">
             <button id="recent-rates-btn">Get Recent Rates</button>
         </form>
+    </div>
+</div>
+<div>
+    <div class="bg-light fixed-bottom align-middle text-center">
+        <p>Copyright Alec R. C. Smith 2020</p>
     </div>
 </div>
 </body>
