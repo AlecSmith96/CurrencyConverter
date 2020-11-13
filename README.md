@@ -1,5 +1,6 @@
 ## Currency Converter
 Web service that converts an amount of one currency to another using up to date exchange rates gathered from the exchangerates.io api.
+Hosted on a DigitalOcean droplet at: http://134.209.76.171:8080/
 
 ### Getting Started
 Since there are no pre-requisites for this project so the only thing needed is for the project itself to be cloned.
